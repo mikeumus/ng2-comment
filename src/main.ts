@@ -3,7 +3,7 @@ import { enableProdMode } from '@angular/core';
 import { Ng2commentAppComponent, environment } from './app/';
 
 if (environment.production) {
-  enableProdMode();
+	enableProdMode();
 }
 
 bootstrap(Ng2commentAppComponent);

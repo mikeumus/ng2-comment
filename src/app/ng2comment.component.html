@@ -1,3 +1,42 @@
-<h1>
-  {{title}}
-</h1>
+<md-toolbar color="primary">
+	<h1>{{title}}</h1>
+</md-toolbar>
+
+<hr>
+
+<section class="commentapp">
+	<header class="header">
+		<h1>BDB Comments</h1>
+	</header>
+	<section class="main" *ngIf="commentStore.comments.length > 0">
+		<div class="comment-list">
+			<md-card *ngFor="let comment of commentStore.comments" [class.editing]="comment.editing">
+				<md-card-subtitle> 
+					<span><md-icon class="md-24">account_circle</md-icon> Comment:</span> 
+					<button md-button *ngIf="comment.editing===false" class="edit-mode-btn" (click)="comment.editing=true">Edit <md-icon style="font-size: 20px;">edit</md-icon></button>
+					<span class="edit-menu" *ngIf="comment.editing">
+						<button md-button class="save float-right" (click)="updateEditingComment(comment, editedComment.value)"> Save </button>
+						<button md-button class="cancel float-right" (click)="cancelEditingComment(comment, editedComment.value)"> Cancel</button>
+						<button md-button class="destroy float-right" (click)="remove(comment)">
+							<!--&#10060;-->
+							Delete
+							<!--<md-icon class="md-24">delete_forever</md-icon>-->
+						</button>
+					</span>
+				</md-card-subtitle>
+				<div class="view">
+					<md-card-content (dblclick)="editComment(comment)">
+						<p>{{comment.commentContent}}</p>
+					</md-card-content>
+					<!--<md-card-actions class="text-align-right">-->
+					<!--</md-card-actions>-->
+				</div>
+				<md-input class="edit" *ngIf="comment.editing" [value]="comment.commentContent" #editedcomment (blur)="stopEditing(comment, editedComment.value)" (keyup.enter)="updateEditingComment(comment, editedComment.value)" (keyup.escape)="cancelEditingComment(comment)"> </md-input>
+			</md-card>
+		</div> <!-- .comment-list end -->
+	</section> <!-- .main end -->
+	<md-card>
+		<md-input class="new-comment" placeholder="Your comment here." autofocus="" [(ngModel)]="newCommentContent" (keyup.enter)="addComment()"> </md-input>
+		<md-input class="new-tag float-right" placeholder="your, tags, here" autofocus="" [(ngModel)]="newCommentContent" (keyup.enter)="addComment()"> </md-input>
+	</md-card>
+</section> <!-- .commentapp end -->

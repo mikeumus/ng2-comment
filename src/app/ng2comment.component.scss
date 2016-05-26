@@ -1,0 +1,43 @@
+ng2comment-app{
+	text-align: center;
+}
+
+.edit-mode-btn{
+	opacity: 0.7;
+	position: absolute;
+	top: 15px;
+	right: 3px;
+	&:hover{opacity: 0.9;}
+}
+	.edit-menu{
+		border: 1px solid rgba(128, 128, 128, 0.17);
+		display: block;
+		width: 68%;
+		height: 49px;
+		float: right;
+		padding: 13px 0 0 0;
+		position: absolute;
+		top: 0px;
+		right: 0;
+		border-radius: 2px;
+	}
+
+.commentapp{
+	text-align: left;
+	margin: auto;
+	width: 36%;
+}
+
+.material-icons{
+	vertical-align: middle;
+}
+
+.float-right{
+	float: right;
+}
+.text-align-right{
+	text-align: right;
+}
+
+.destroy{
+}
