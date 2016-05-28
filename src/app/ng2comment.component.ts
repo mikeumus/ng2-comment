@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
+// import { HTTP_PROVIDERS } from '@angular/http';
 import 'rxjs/Rx';
 import { CommentStore, Comment } from './comment.service';
-// import { MdToolbar } from '@angular2-material/toolbar/toolbar';
-// import { MdInput } from '@angular2-material/input/input';
-// import { MdButton } from '@angular2-material/button/button';
-// import { MdIcon } from '@angular2-material/icon/icon';
-// import { MdIconRegistry } from '@angular2-material/icon/icon-registry';
-// import { MdCard } from '@angular2-material/card/card';
+import { MdToolbar } from '@angular2-material/toolbar/toolbar';
+import { MdInput } from '@angular2-material/input/input';
+import { MdButton } from '@angular2-material/button/button';
+import { MdIcon } from '@angular2-material/icon/icon';
+import { MdIconRegistry } from '@angular2-material/icon/icon-registry';
+import { MdCard } from '@angular2-material/card/card';
 
 @Component({
 	moduleId: module.id,
 	selector: 'ng2comment-app',
 	templateUrl: 'ng2comment.component.html',
 	styleUrls: ['ng2comment.component.css'],
-	// directives: [MdToolbar, MdInput, MdButton, MdIcon, MdCard],
-	providers: [CommentStore, Comment /*, MdIconRegistry*/, HTTP_PROVIDERS]
+	directives: [MdToolbar, MdInput, MdButton, MdIcon, MdCard],
+	providers: [CommentStore, Comment , MdIconRegistry, /*HTTP_PROVIDERS*/]
 })
 export class Ng2commentAppComponent {
 	title = 'Welome to BDB Comments';
@@ -65,7 +65,7 @@ export class Ng2commentAppComponent {
 	}
 
 	public ngOnInit(){
-		this.commentStore.loadInitComments();
+		// this.commentStore.loadInitComments();
 	}	
 	
 }

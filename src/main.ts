@@ -1,10 +1,12 @@
 import { bootstrap } from '@angular/platform-browser-dynamic';
-import { enableProdMode } from '@angular/core';
-import { Ng2commentAppComponent, environment } from './app/';
+import { HTTP_PROVIDERS } from '@angular/http';
+// import { enableProdMode } from '@angular/core';
+import { Ng2commentAppComponent } from './app';
+// import { environment } from './app/environment';
 
-if (environment.production) {
-	enableProdMode();
-}
+// if (environment.production) {
+// 	enableProdMode();
+// }
 
-bootstrap(Ng2commentAppComponent);
+bootstrap(Ng2commentAppComponent, [ HTTP_PROVIDERS ]);
 

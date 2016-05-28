@@ -1,3 +1,4 @@
+
 /***********************************************************************************************
  * User Configuration.
  **********************************************************************************************/
@@ -24,11 +25,11 @@ const barrels: string[] = [
 	'@angular/common',
 	'@angular/compiler',
 	'@angular/http',
-	'@angular/router',
 	'@angular/platform-browser',
 	'@angular/platform-browser-dynamic',
+	'@angular/router',
 	
-	// '@angular2-material',
+	'@angular2-material',
 	// '@angular2-material/core',
 	// '@angular2-material/toolbar',
 	// '@angular2-material/input',
@@ -40,8 +41,8 @@ const barrels: string[] = [
 	'rxjs',
 
 	// App specific barrels.
-	'app',
-	'app/shared',
+	'app'
+	// 'app/shared',
 	/** @cli-barrel */
 ];
 
@@ -57,7 +58,7 @@ declare var System: any;
 System.config({
 	map: {
 		'@angular': 'vendor/@angular',
-		// '@angular2-material': 'vendor/@angular2-material',
+		'@angular2-material': 'vendor/@angular2-material',
 		'rxjs': 'vendor/rxjs',
 		'main': 'main.js'
 	},
