@@ -2,7 +2,7 @@ ng2comment-app{
 	text-align: center;
 }
 
-.edit-mode-btn{
+.edit-btn{
 	opacity: 0.7;
 	position: absolute;
 	top: 15px;
@@ -12,7 +12,7 @@ ng2comment-app{
 	.edit-menu{
 		border: 1px solid rgba(128, 128, 128, 0.17);
 		display: block;
-		width: 68%;
+		width: 59%;
 		height: 49px;
 		float: right;
 		padding: 13px 0 0 0;
@@ -39,5 +39,50 @@ ng2comment-app{
 	text-align: right;
 }
 
-.destroy{
+$purple: #582A91; 
+$redish: #A42F40; 
+$turquoise: #4C948B; 
+$grey: #414654; 
+$gold: #D2B847;
+
+$colors: $purple, $redish, $turquoise, $grey, $gold, dodgerblue;
+
+// http://stackoverflow.com/a/15475957/1762493
+@for $i from 1 through length($colors) {
+	.tag:nth-of-type(#{length($colors)}n+#{$i}):before{
+		background: lighten(nth($colors, $i), 1%);
+	}
+}
+
+@mixin tag-before-after($opacity, $bg, $zIndex) {
+	// :before :after http://stackoverflow.com/a/14695403/1762493
+	content: "";
+	width: 100%;
+	height: 100%;
+	border-radius: 13px;
+	opacity: $opacity;
+	background: $bg;
+	top: 0;
+	right: 0;
+	position: absolute;
+	display: inline-block;
+	z-index: $zIndex;
+	transition: all 0.3s ease 0s;
+}
+
+.tag{
+	padding: 8px 13px;
+	//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+	transition: all 0.3s ease 0s;
+	position: relative;
+	// background: rgba(255, 255, 255, 0.06) none repeat scroll 0 0;
+	margin: 15px;
+	z-index: initial;
+	&:before{@include tag-before-after(0.7, blue, 1)}
+	p{color: #555;} // #555 or $card-color is white
+	h4 {
+		//Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+		transition: all 0.3s ease 0s;
+		color: #333; // #333 or $card-color
+	}
 }

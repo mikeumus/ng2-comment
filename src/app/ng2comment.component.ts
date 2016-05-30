@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-// import { HTTP_PROVIDERS } from '@angular/http';
+import { NgForm } from '@angular/common';
 import 'rxjs/Rx';
-import { CommentStore, Comment } from './comment.service';
+import { CommentStore } from './comment.service';
+import { CommentEntity } from './comment.entity';
 import { MdToolbar } from '@angular2-material/toolbar/toolbar';
 import { MdInput } from '@angular2-material/input/input';
 import { MdButton } from '@angular2-material/button/button';
@@ -15,57 +16,56 @@ import { MdCard } from '@angular2-material/card/card';
 	templateUrl: 'ng2comment.component.html',
 	styleUrls: ['ng2comment.component.css'],
 	directives: [MdToolbar, MdInput, MdButton, MdIcon, MdCard],
-	providers: [CommentStore, Comment , MdIconRegistry, /*HTTP_PROVIDERS*/]
+	providers: [CommentStore, MdIconRegistry]
 })
 export class Ng2commentAppComponent {
 	title = 'Welome to BDB Comments';
 	commentStore: CommentStore;
 	newCommentContent = '';
+	newTag = '';
+	
+	submitted = false;
+  onSubmit() { this.submitted = true; }
 	
 	constructor(commentStore: CommentStore){
 		this.commentStore = commentStore;
 	}
 	
-	stopEditing(comment: Comment, editedComment: String){
+	stopEditing(comment: CommentEntity, editedComment: string){
 		comment.commentContent = editedComment;
 		comment.editing = false;
-		debugger;
 	}
 	
-	cancelEditingComment(comment: Comment){
+	cancelEditingComment(comment: CommentEntity){
 		comment.editing = false;
-		debugger;
 	}
 	
-	updateEditingComment(comment: Comment, editedComment: String){
+	updateEditingComment(comment: CommentEntity, editedComment: string){
 		editedComment = editedComment.trim();
 		comment.editing = false;
-		debugger;
 		
 		if(editedComment.length === 0){
 			return this.commentStore.remove(comment);
+		} else{
+			return this.commentStore.update(comment, editedComment);
 		}
 		
-		comment.commentContent = editedComment;
 	}
 	
-	editComment(comment: Comment){
+	editComment(comment: CommentEntity){
 		comment.editing = true;
 	}
 	
-	remove(comment: Comment){
+	remove(comment: CommentEntity){
 		this.commentStore.remove(comment);
 	}
 	
 	addComment(){
-		if(this.newCommentContent.trim().length){
-			this.commentStore.add(this.newCommentContent);
+		if(this.newCommentContent.trim().length && this.newTag.trim().length){
+			this.commentStore.add(this.newCommentContent, this.newTag);
 			this.newCommentContent = '';
+			this.newTag = '';
 		}
 	}
-
-	public ngOnInit(){
-		// this.commentStore.loadInitComments();
-	}	
 	
 }
