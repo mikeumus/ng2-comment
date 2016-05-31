@@ -20,6 +20,7 @@ ng2comment-app{
   transition: $args;
 }
 md-card{
+	margin: 33px auto;
 	&:hover .edit-btn{@include opacity(0.9);}
 }
 .edit-btn{

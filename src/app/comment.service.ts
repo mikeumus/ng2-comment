@@ -1,28 +1,45 @@
 import { Injectable } from '@angular/core';
-import { CommentEntity } from './comment.entity';
+import { CommentEntity, TagsEntity } from './comment.entity';
 
 @Injectable()	
 export class CommentStore {
 	comments: Array<CommentEntity>;
+	tags: Array<TagsEntity>;
+	
+	private initTags = ['one', 'two', 'three'];
+	private newTags(tagArray: string[]){
+		return new TagsEntity(tagArray);
+	}
+	private newComment(commentContent: string, tags: TagsEntity){
+		return new CommentEntity(1, "title1", commentContent, undefined, this.newTags(tags), false);
+	} 
+	private initComment = this.newComment("comment1", this.initTags);
 	
 	private db: CommentEntity[] = [
-		new CommentEntity(1, "title1", "comment1", "comment1", "tag1", false)
+		this.initComment
 	];
 	
 	constructor() {
+		let persistedTags = (JSON.parse(sessionStorage.getItem('bdb-tags')) || this.initTags);
+		this.tags = persistedTags.map((tags: string[]) => {
+			let ret = tags;
+			return ret;
+		});
+		
 		let persistedComments = (JSON.parse(sessionStorage.getItem('bdb-comments')) || this.db);
-		this.comments = persistedComments.map((comment: {commentContent: string}) => {
-			let ret = new CommentEntity(2, "title2", comment.commentContent, undefined, "tag2", false);
+		this.comments = persistedComments.map((comment: {commentContent: string}, tags: string[]) => {
+			let ret = this.newComment(comment.commentContent, tags);
 			return ret;
 		});
 	}
 	
 	private updateStorage() { 
+		sessionStorage.setItem('bdb-tags', JSON.stringify(this.tags));
 		sessionStorage.setItem('bdb-comments', JSON.stringify(this.comments));
 	}
 	
-	update(comment: CommentEntity, commentContent: string) {
-		this.comments.splice(this.comments.indexOf(comment), 1, new CommentEntity(3, "title3", commentContent, undefined, "tag2", false));
+	update(comment: CommentEntity, commentContent: string, tags: string[]) {
+		this.comments.splice(this.comments.indexOf(comment), 1, this.newComment(commentContent, tags));
 		this.updateStorage();
 	}
 	
@@ -31,8 +48,9 @@ export class CommentStore {
 		this.updateStorage();
 	}
 	
-	add(commentContent: string) {
-		this.comments.push(new CommentEntity(2, "title2", commentContent, undefined, "tag2", false));
+	add(commentContent: string, tagArry: string[]) {
+		// this.tags.push(tags);
+		this.comments.push(this.newComment(commentContent, tagArry));
 		this.updateStorage();
 	}
 	

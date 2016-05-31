@@ -23,13 +23,10 @@ export class Ng2commentAppComponent {
 	title = 'Welome to BDB Comments';
 	commentStore: CommentStore;
 	newCommentContent = '';
+	public tags = ['one', 'two', 'three'];
 	
-	public settings = {
-		tags: ['one', 'two', 'three']
-	};
-	
-	submitted = false;
-	onSubmit() { this.submitted = true; }
+	// Initial placeholder comment data
+	public comment = new CommentEntity(1, "title1", "comment1", this.newCommentContent, this.tags, false);
 	
 	constructor(commentStore: CommentStore){
 		this.commentStore = commentStore;
@@ -44,14 +41,14 @@ export class Ng2commentAppComponent {
 		comment.editing = false;
 	}
 	
-	updateEditingComment(comment: CommentEntity, editedComment: string){
+	updateEditingComment(comment: CommentEntity, editedComment: string, tags: string[]){
 		editedComment = editedComment.trim();
 		comment.editing = false;
 		
 		if(editedComment.length === 0){
 			return this.commentStore.remove(comment);
 		} else{
-			return this.commentStore.update(comment, editedComment);
+			return this.commentStore.update(comment, editedComment, tags);
 		}
 		
 	}
@@ -66,7 +63,7 @@ export class Ng2commentAppComponent {
 	
 	addComment(){
 		if(this.newCommentContent.trim().length){
-			this.commentStore.add(this.newCommentContent);
+			this.commentStore.add(this.newCommentContent, this.tags);
 			this.newCommentContent = '';
 		}
 	}

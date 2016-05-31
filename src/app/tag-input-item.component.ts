@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommentEntity } from './comment.entity';
 
 @Component({
 	selector: 'tag-input-item',
@@ -6,6 +7,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 	template:
 	`{{text}}
 	<span
+	*ngIf="comment.editing" 
 	class="ng2-tag-input-remove"
 	(click)="removeTag()">&times;</span>`,
 	
@@ -38,6 +40,7 @@ export class TagInputItemComponent {
 	@Input() text: string;
 	@Input() index: number;
 	@Output() tagRemoved: EventEmitter<any> = new EventEmitter();
+	@Input() comment: CommentEntity;
 	
 	constructor() {
 	}

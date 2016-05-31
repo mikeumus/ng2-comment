@@ -2,12 +2,14 @@ import { Component, HostBinding, Input, Output, Provider, forwardRef, EventEmitt
 import { NgControl } from '@angular/common';
 import { isBlank } from '@angular/core/src/facade/lang';
 import { TagInputItemComponent } from './tag-input-item.component';
+import { CommentEntity } from './comment.entity'
 
 @Component({
 	selector: 'tag-input',
 	styleUrls: ['app/ng2comment.component.css'],
 	template:
 	`<tag-input-item
+	[comment]="comment" 
 	class="tag" 
 	[text]="tag"
 	[index]="index"
@@ -15,7 +17,8 @@ import { TagInputItemComponent } from './tag-input-item.component';
 	(tagRemoved)="_removeTag($event)"
 	*ngFor="let tag of tagsList; let index = index">
 	</tag-input-item>
-	<input
+	<input 
+	*ngIf="comment.editing" 
 	class="ng2-tag-input-field"
 	type="text"
 	[placeholder]="placeholder"
@@ -53,6 +56,7 @@ export class TagInputComponent {
 	@Input() addOnPaste: boolean = true;
 	@Input() allowedTagsPattern: RegExp = /.+/;
 	@HostBinding('class.ng2-tag-input-focus') isFocussed;
+	@Input() comment: CommentEntity;
 
 	public tagsList: string[];
 	public inputValue: string = '';
