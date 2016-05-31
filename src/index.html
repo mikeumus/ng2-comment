@@ -14,21 +14,16 @@
 </head>
 <body>
 	<ng2comment-app>
-		<md-progress-circle mode="indeterminate">Loading...</md-progress-circle>
+		<md-progress-circle mode="indeterminate"> Loading... </md-progress-circle>
 	</ng2comment-app>
 
-	
-
-		{{#each scripts.polyfills}}<script src="{{.}}"></script>{{/each}}
+		{{#each scripts.polyfills}}<script src="{{.}}"> </script>{{/each}}
 		<script>
 			System.import('system-config.js').then(function () {
 				System.import('main');
 			}).catch(console.error.bind(console));
 		</script>
-
-	
-
-
+		<script type="text/javascript" src="app/script.js"> </script>
 
 </body>
 </html>

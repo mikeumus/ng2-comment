@@ -22,7 +22,7 @@ export class CommentStore {
 	}
 	
 	update(comment: CommentEntity, commentContent: string) {
-		this.comments.splice(this.comments.indexOf(comment), 1, new CommentEntity(3, "title3", commentContent, undefined, "tag3", false));
+		this.comments.splice(this.comments.indexOf(comment), 1, new CommentEntity(3, "title3", commentContent, undefined, "tag2", false));
 		this.updateStorage();
 	}
 	
@@ -31,8 +31,8 @@ export class CommentStore {
 		this.updateStorage();
 	}
 	
-	add(commentContent: string, tag: string) {
-		this.comments.push(new CommentEntity(2, "title2", commentContent, undefined, tag, false));
+	add(commentContent: string) {
+		this.comments.push(new CommentEntity(2, "title2", commentContent, undefined, "tag2", false));
 		this.updateStorage();
 	}
 	

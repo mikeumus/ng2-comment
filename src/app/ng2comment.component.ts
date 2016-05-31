@@ -9,23 +9,27 @@ import { MdButton } from '@angular2-material/button/button';
 import { MdIcon } from '@angular2-material/icon/icon';
 import { MdIconRegistry } from '@angular2-material/icon/icon-registry';
 import { MdCard } from '@angular2-material/card/card';
+import { TagInputComponent } from './tag-input.component';
 
 @Component({
 	moduleId: module.id,
 	selector: 'ng2comment-app',
 	templateUrl: 'ng2comment.component.html',
 	styleUrls: ['ng2comment.component.css'],
-	directives: [MdToolbar, MdInput, MdButton, MdIcon, MdCard],
+	directives: [MdToolbar, MdInput, MdButton, MdIcon, MdCard, TagInputComponent],
 	providers: [CommentStore, MdIconRegistry]
 })
 export class Ng2commentAppComponent {
 	title = 'Welome to BDB Comments';
 	commentStore: CommentStore;
 	newCommentContent = '';
-	newTag = '';
+	
+	public settings = {
+		tags: ['one', 'two', 'three']
+	};
 	
 	submitted = false;
-  onSubmit() { this.submitted = true; }
+	onSubmit() { this.submitted = true; }
 	
 	constructor(commentStore: CommentStore){
 		this.commentStore = commentStore;
@@ -61,10 +65,9 @@ export class Ng2commentAppComponent {
 	}
 	
 	addComment(){
-		if(this.newCommentContent.trim().length && this.newTag.trim().length){
-			this.commentStore.add(this.newCommentContent, this.newTag);
+		if(this.newCommentContent.trim().length){
+			this.commentStore.add(this.newCommentContent);
 			this.newCommentContent = '';
-			this.newTag = '';
 		}
 	}
 	

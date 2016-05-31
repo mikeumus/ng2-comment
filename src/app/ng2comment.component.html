@@ -27,8 +27,8 @@
 					<!--<md-card-actions class="text-align-right">-->
 					<!--</md-card-actions>-->
 				</div>
-				<md-input class="edit" *ngIf="comment.editing" [value]="comment.commentContent" #editedComment (blur)="stopEditing(comment, editedComment.value)" (keyup.enter)="updateEditingComment(comment, editedComment.value)" (keyup.escape)="cancelEditingComment(comment)"> </md-input>
-				<!--<md-input class="edit" *ngIf="comment.editing" [value]="comment.tag" #editedTag (blur)="stopEditing(comment, editedComment.value, editedTag.value)" (keyup.enter)="updateEditingComment(comment, editedComment.value, editedTag.value)" (keyup.escape)="cancelEditingComment(comment)"> </md-input>-->
+				<md-input class="edit" *ngIf="comment.editing" placeholder="Comment:" [value]="comment.commentContent" #editedComment (blur)="stopEditing(comment, editedComment.value)" (keyup.enter)="updateEditingComment(comment, editedComment.value)" (keyup.escape)="cancelEditingComment(comment)"> </md-input>
+				<tag-input placeholder="Add an tag" [(ngModel)]="settings.tags" delimiterCode="188"> </tag-input>
 			</md-card>
 		</div> <!-- .comment-list end -->
 	</section> <!-- .main end -->
