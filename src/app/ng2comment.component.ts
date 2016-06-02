@@ -23,10 +23,15 @@ export class Ng2commentAppComponent {
 	title = 'Welome to BDB Comments';
 	commentStore: CommentStore;
 	newCommentContent = '';
+	newCommentTitle = '';
 	public tags = ['one', 'two', 'three'];
 	
+	public newTags(tagArray: string[]){
+		return new Array(...tagArray);
+	}
+
 	// Initial placeholder comment data
-	public comment = new CommentEntity(1, "title1", "comment1", this.newCommentContent, this.tags, false);
+	public comment = new CommentEntity(1, this.newCommentTitle, "comment1", this.newCommentContent, this.tags, false);
 	
 	constructor(commentStore: CommentStore){
 		this.commentStore = commentStore;
@@ -41,20 +46,21 @@ export class Ng2commentAppComponent {
 		comment.editing = false;
 	}
 	
-	updateEditingComment(comment: CommentEntity, editedComment: string, tags: string[]){
+	updateEditingComment(comment: CommentEntity, newTitle: string, editedComment: string, tags: string[]){
 		editedComment = editedComment.trim();
 		comment.editing = false;
 		
 		if(editedComment.length === 0){
 			return this.commentStore.remove(comment);
 		} else{
-			return this.commentStore.update(comment, editedComment, tags);
+			return this.commentStore.update(newTitle, comment, editedComment, this.newTags(this.tags));
 		}
 		
 	}
 	
 	editComment(comment: CommentEntity){
 		comment.editing = true;
+		debugger;
 	}
 	
 	remove(comment: CommentEntity){
@@ -63,7 +69,7 @@ export class Ng2commentAppComponent {
 	
 	addComment(){
 		if(this.newCommentContent.trim().length){
-			this.commentStore.add(this.newCommentContent, this.tags);
+			this.commentStore.add(this.newCommentTitle, this.newCommentContent, this.tags);
 			this.newCommentContent = '';
 		}
 	}

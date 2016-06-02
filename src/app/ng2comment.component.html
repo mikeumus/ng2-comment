@@ -26,13 +26,17 @@
 					<!--<md-card-actions class="text-align-right">-->
 					<!--</md-card-actions>-->
 				</div>
-				<md-input class="edit" *ngIf="comment.editing" placeholder="Comment:" [value]="comment.commentContent" #editedComment (blur)="stopEditing(comment, editedComment.value)" (keyup.enter)="updateEditingComment(comment, editedComment.value)" (keyup.escape)="cancelEditingComment(comment)"> </md-input>
-				<tag-input [comment]="comment" placeholder="Add an tag" [(ngModel)]="tags" delimiterCode="188"> </tag-input>
+				<md-input class="edit" #editedComment *ngIf="comment.editing" placeholder="Comment:" [value]="comment.commentContent" (blur)="stopEditing(comment, editedComment.value)" (keyup.enter)="updateEditingComment(comment, editedComment.value)" (keyup.escape)="cancelEditingComment(comment)"> </md-input>
+				<tag-input [comment]="comment" placeholder="Add an tag" (key.enter)="addTags()" delimiterCode="188"> </tag-input>
 			</md-card>
 		</div> <!-- .comment-list end -->
 	</section> <!-- .main end -->
 	<md-card>
-		<md-input class="new-comment" (focus)="editComment(comment)" placeholder="Your comment here." autofocus="" [(ngModel)]="newCommentContent" (keyup.enter)="addComment()"> </md-input>
-		<tag-input [comment]="comment" placeholder="Add an tag" [(ngModel)]="tags" delimiterCode="188"> </tag-input>
+		<md-input class="new-title" #newTitle (focus)="editComment(comment)" placeholder="Comment Title" autofocus="" [(ngModel)]="newCommentTitle" (keyup.enter)="addComment()"> </md-input>
+		<md-input class="new-comment" #newComment (focus)="editComment(comment)" placeholder="Your comment here." autofocus="" [(ngModel)]="newCommentContent" (keyup.enter)="addComment()"> </md-input>
+		<tag-input [comment]="comment" placeholder="Add an tag" (key.enter)="addTags()" delimiterCode="188"> </tag-input>
+		<button (click)="addComment(); cancelEditingComment(comment)" md-fab color="primary" class="send-btn">
+			<md-icon class="md-24">send</md-icon>
+		</button>
 	</md-card>
 </section> <!-- .commentapp end -->

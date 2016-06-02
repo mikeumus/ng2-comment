@@ -1,8 +1,8 @@
 import { Component, HostBinding, Input, Output, Provider, forwardRef, EventEmitter } from '@angular/core';
-import { NgControl } from '@angular/common';
 import { isBlank } from '@angular/core/src/facade/lang';
 import { TagInputItemComponent } from './tag-input-item.component';
 import { CommentEntity } from './comment.entity'
+import { CommentStore } from './comment.service';
 
 @Component({
 	selector: 'tag-input',
@@ -49,7 +49,6 @@ import { CommentEntity } from './comment.entity'
 })
 export class TagInputComponent {
 	@Input() placeholder: string = 'Add a tag';
-	@Input() ngModel: string[];
 	@Input() delimiterCode: string = '188';
 	@Input() addOnBlur: boolean = true;
 	@Input() addOnEnter: boolean = true;
@@ -58,26 +57,27 @@ export class TagInputComponent {
 	@HostBinding('class.ng2-tag-input-focus') isFocussed;
 	@Input() comment: CommentEntity;
 
+	public commentStore: CommentStore;
 	public tagsList: string[];
 	public inputValue: string = '';
 	public delimiter: number;
 	public selectedTag: number;
 	
-	constructor(private _ngControl: NgControl) {
-	this._ngControl.valueAccessor = this;
+	constructor(commentStore: CommentStore){
+		this.commentStore = commentStore;
 	}
 
 	ngOnInit() {
-	if (this.ngModel) this.tagsList = this.ngModel;
+	if (this.comment.tagArray) this.tagsList = this.comment.tagArray;
 	this.onChange(this.tagsList);
 	this.delimiter = parseInt(this.delimiterCode);
 	}
 
 	ngAfterViewInit() {
-	// If the user passes an undefined variable to ngModel this will warn
+	// If the user passes an undefined variable to comment this will warn
 	// and set the value to an empty array
 	if (!this.tagsList) {
-		console.warn('TagInputComponent was passed an undefined value in ngModel. Please make sure the variable is defined.');
+		console.warn('TagInputComponent was passed an undefined value in comment. Please make sure the variable is defined.');
 		this.tagsList = [];
 		this.onChange(this.tagsList);
 	}
@@ -89,8 +89,10 @@ export class TagInputComponent {
 		case 8: // Backspace
 		this._handleBackspace();
 		break;
-		case 13: //Enter
-		this.addOnEnter && this._addTags([this.inputValue]);
+		case 13: // Enter
+		if (this.inputValue.trim() !== ""){
+			this.addOnEnter && this._addTags([this.inputValue]);
+		}
 		event.preventDefault();
 		break;
 
@@ -135,6 +137,9 @@ export class TagInputComponent {
 	private _addTags(tags: string[]) {
 	let validTags = tags.filter((tag) => this._isTagValid(tag));
 	this.tagsList = this.tagsList.concat(validTags);
+	this.comment.tagArray = this.tagsList;
+	this.commentStore.tags.push(validTags);
+	this.commentStore.updateTagsStorage();
 	this._resetSelected();
 	this._resetInput();
 	this.onChange(this.tagsList);
@@ -142,6 +147,8 @@ export class TagInputComponent {
 
 	private _removeTag(tagIndexToRemove) {
 	this.tagsList.splice(tagIndexToRemove, 1);
+	this.commentStore.tags.splice(tagIndexToRemove, 1);
+	this.commentStore.updateTagsStorage();
 	this._resetSelected();
 	this.onChange(this.tagsList);
 	}

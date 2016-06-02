@@ -45,7 +45,8 @@ export class TagInputItemComponent {
 	constructor() {
 	}
 
-	removeTag() {
+	removeTag(/*comment: CommentEntity*/) {
+	// this.tags.splice(this.tags.indexOf(tag), 1);
 	this.tagRemoved.emit(this.index);
 	}
 }

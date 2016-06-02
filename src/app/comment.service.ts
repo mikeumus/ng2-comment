@@ -1,45 +1,49 @@
 import { Injectable } from '@angular/core';
-import { CommentEntity, TagsEntity } from './comment.entity';
+import { CommentEntity } from './comment.entity';
 
 @Injectable()	
 export class CommentStore {
 	comments: Array<CommentEntity>;
-	tags: Array<TagsEntity>;
+	tags: Array<string[]>;
 	
-	private initTags = ['one', 'two', 'three'];
-	private newTags(tagArray: string[]){
-		return new TagsEntity(tagArray);
+	public commentId: number = 1;
+	private initTags: string[] = ['one', 'two', 'three'];
+	public newTags(tagArray){
+		return new Array(...tagArray);
 	}
-	private newComment(commentContent: string, tags: TagsEntity){
-		return new CommentEntity(1, "title1", commentContent, undefined, this.newTags(tags), false);
+	public newComment(commentId: number, title: string, commentContent: string, tagArray: string[]){
+		return new CommentEntity(commentId, title, commentContent, undefined, this.newTags(this.tags), false);
 	} 
-	private initComment = this.newComment("comment1", this.initTags);
+	public initComment = this.newComment(this.commentId, "Title 1", "Comment Z", this.newTags(this.tags));
 	
-	private db: CommentEntity[] = [
+	public db: CommentEntity[] = [
 		this.initComment
 	];
 	
 	constructor() {
 		let persistedTags = (JSON.parse(sessionStorage.getItem('bdb-tags')) || this.initTags);
-		this.tags = persistedTags.map((tags: string[]) => {
-			let ret = tags;
-			return ret;
+		this.tags = persistedTags.map((tagArray: string) => {
+			return tagArray;
 		});
 		
 		let persistedComments = (JSON.parse(sessionStorage.getItem('bdb-comments')) || this.db);
-		this.comments = persistedComments.map((comment: {commentContent: string}, tags: string[]) => {
-			let ret = this.newComment(comment.commentContent, tags);
+		this.comments = persistedComments.map((comment: {_id: number, title: string, commentContent: string, tagArray: string[]}) => {
+			let ret = this.newComment(this.commentId, comment.title, comment.commentContent, comment.tagArray);
+			this.commentId += 1;
 			return ret;
 		});
 	}
 	
 	private updateStorage() { 
-		sessionStorage.setItem('bdb-tags', JSON.stringify(this.tags));
 		sessionStorage.setItem('bdb-comments', JSON.stringify(this.comments));
 	}
 	
-	update(comment: CommentEntity, commentContent: string, tags: string[]) {
-		this.comments.splice(this.comments.indexOf(comment), 1, this.newComment(commentContent, tags));
+	public updateTagsStorage(){
+		sessionStorage.setItem('bdb-tags', JSON.stringify(this.tags));
+	}
+
+	update(comment: CommentEntity, title: string, commentContent: string, tagArray: string[]) {
+		this.comments.splice(this.comments.indexOf(comment), 1, this.newComment(comment._id, title, commentContent, tagArray));
 		this.updateStorage();
 	}
 	
@@ -48,9 +52,10 @@ export class CommentStore {
 		this.updateStorage();
 	}
 	
-	add(commentContent: string, tagArry: string[]) {
+	add(title: string, commentContent: string, tagArray: string[]) {
 		// this.tags.push(tags);
-		this.comments.push(this.newComment(commentContent, tagArry));
+		this.commentId += 1;
+		this.comments.push(this.newComment(this.commentId, title, commentContent, tagArray));
 		this.updateStorage();
 	}
 	
