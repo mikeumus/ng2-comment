@@ -1,6 +1,6 @@
 # ng2-comment
 
-![https://raw.githubusercontent.com/mikeumus/ng2-comment/master/src/assets/ng2-comment.png](ng2 comment screenshot)
+![ng2 comment screenshot](https://raw.githubusercontent.com/mikeumus/ng2-comment/master/src/assets/ng2-comment.png)
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.14.
 
