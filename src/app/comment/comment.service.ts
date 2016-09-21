@@ -14,19 +14,19 @@ export class CommentStore {
 	public newComment(commentId: number, title: string, commentContent: string, tagArray: string[]){
 		return new CommentEntity(commentId, title, commentContent, undefined, this.newTags(this.tags), false);
 	} 
-	public initComment = this.newComment(this.commentId, "Title 1", "Comment Z", this.newTags(this.tags));
+	public initComment = this.newComment(this.commentId, "First Comment", "Hi There :D", this.newTags(this.tags));
 	
 	public db: CommentEntity[] = [
 		this.initComment
 	];
 	
 	constructor() {
-		let persistedTags = (JSON.parse(sessionStorage.getItem('bdb-tags')) || this.initTags);
+		let persistedTags = (JSON.parse(sessionStorage.getItem('ng2-tags')) || this.initTags);
 		this.tags = persistedTags.map((tagArray: string) => {
 			return tagArray;
 		});
 		
-		let persistedComments = (JSON.parse(sessionStorage.getItem('bdb-comments')) || this.db);
+		let persistedComments = (JSON.parse(sessionStorage.getItem('ng2-comments')) || this.db);
 		this.comments = persistedComments.map((comment: {_id: number, title: string, commentContent: string, tagArray: string[]}) => {
 			let ret = this.newComment(this.commentId, comment.title, comment.commentContent, comment.tagArray);
 			this.commentId += 1;
@@ -35,11 +35,11 @@ export class CommentStore {
 	}
 	
 	private updateStorage() { 
-		sessionStorage.setItem('bdb-comments', JSON.stringify(this.comments));
+		sessionStorage.setItem('ng2-comments', JSON.stringify(this.comments));
 	}
 	
 	public updateTagsStorage(){
-		sessionStorage.setItem('bdb-tags', JSON.stringify(this.tags));
+		sessionStorage.setItem('ng2-tags', JSON.stringify(this.tags));
 	}
 
 	update(comment: CommentEntity, title: string, commentContent: string, tagArray: string[]) {

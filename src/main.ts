@@ -1,12 +1,12 @@
-import { bootstrap } from '@angular/platform-browser-dynamic';
-import { HTTP_PROVIDERS } from '@angular/http';
-// import { enableProdMode } from '@angular/core';
-import { Ng2commentAppComponent } from './app';
-// import { environment } from './app/environment';
+import './polyfills.ts';
 
-// if (environment.production) {
-// 	enableProdMode();
-// }
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { enableProdMode } from '@angular/core';
+import { environment } from './environments/environment';
+import { AppModule } from './app/app.module';
 
-bootstrap(Ng2commentAppComponent, [ HTTP_PROVIDERS ]);
+if (environment.production) {
+  enableProdMode();
+}
 
+platformBrowserDynamic().bootstrapModule(AppModule);

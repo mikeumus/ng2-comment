@@ -1,12 +1,12 @@
 import { Component, HostBinding, Input, Output, Provider, forwardRef, EventEmitter } from '@angular/core';
 import { isBlank } from '@angular/core/src/facade/lang';
 import { TagInputItemComponent } from './tag-input-item.component';
-import { CommentEntity } from './comment.entity'
-import { CommentStore } from './comment.service';
+import { CommentEntity } from '../comment/comment.entity'
+import { CommentStore } from '../comment/comment.service';
 
 @Component({
 	selector: 'tag-input',
-	styleUrls: ['app/ng2comment.component.css'],
+	styleUrls: ['../comment/ng2comment.component.scss'],
 	template:
 	`<tag-input-item
 	[comment]="comment" 
@@ -27,25 +27,25 @@ import { CommentStore } from './comment.service';
 	(keydown)="inputChanged($event)"
 	(blur)="inputBlurred($event)"
 	(focus)="inputFocused()"
-	#tagInputRef>`,
+	#tagInputRef>`
 
-	styles: [`
-	:host {
-		display: block;
-		box-shadow: 0 1px #ccc;
-		padding: 5px 0;
-	}
+	// styles: [`
+	// :host {
+	// 	display: block;
+	// 	box-shadow: 0 1px #ccc;
+	// 	padding: 5px 0;
+	// }
 
-	:host.ng2-tag-input-focus {
-		box-shadow: 0 2px #0d8bff;
-	}
+	// :host.ng2-tag-input-focus {
+	// 	box-shadow: 0 2px #0d8bff;
+	// }
 
-	.ng2-tag-input-field {
-		box-shadow: none;
-		border: 0;
-	}
-	`],
-	directives: [TagInputItemComponent]
+	// .ng2-tag-input-field {
+	// 	box-shadow: none;
+	// 	border: 0;
+	// }
+	// `]
+	// directives: [TagInputItemComponent]
 })
 export class TagInputComponent {
 	@Input() placeholder: string = 'Add a tag';

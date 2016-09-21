@@ -1,26 +1,20 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/common';
+import { NgForm } from '@angular/forms';
+// import {Http, HTTP_PROVIDERS} from '@angular/http';
 import 'rxjs/Rx';
 import { CommentStore } from './comment.service';
 import { CommentEntity } from './comment.entity';
-import { MdToolbar } from '@angular2-material/toolbar/toolbar';
-import { MdInput } from '@angular2-material/input/input';
-import { MdButton } from '@angular2-material/button/button';
-import { MdIcon } from '@angular2-material/icon/icon';
-import { MdIconRegistry } from '@angular2-material/icon/icon-registry';
-import { MdCard } from '@angular2-material/card/card';
-import { TagInputComponent } from './tag-input.component';
+import { TagInputComponent } from '../tag-input/tag-input.component';
 
 @Component({
-	moduleId: module.id,
+	// moduleId: module.id,
 	selector: 'ng2comment-app',
 	templateUrl: 'ng2comment.component.html',
-	styleUrls: ['ng2comment.component.css'],
-	directives: [MdToolbar, MdInput, MdButton, MdIcon, MdCard, TagInputComponent],
-	providers: [CommentStore, MdIconRegistry]
+	styleUrls: ['ng2comment.component.scss'],
+	providers: [CommentStore /*HTTP_PROVIDERS*/]
 })
 export class Ng2commentAppComponent {
-	title = 'Welome to BDB Comments';
+	title = 'Welome to ng2 Comments';
 	commentStore: CommentStore;
 	newCommentContent = '';
 	newCommentTitle = '';
@@ -46,7 +40,7 @@ export class Ng2commentAppComponent {
 		comment.editing = false;
 	}
 	
-	updateEditingComment(comment: CommentEntity, newTitle: string, editedComment: string, tags: string[]){
+	updateEditingComment(comment, newTitle, editedComment, tags: string[]){
 		editedComment = editedComment.trim();
 		comment.editing = false;
 		
@@ -60,7 +54,7 @@ export class Ng2commentAppComponent {
 	
 	editComment(comment: CommentEntity){
 		comment.editing = true;
-		debugger;
+		// debugger;
 	}
 	
 	remove(comment: CommentEntity){

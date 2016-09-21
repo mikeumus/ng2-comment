@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommentEntity } from './comment.entity';
+import { CommentEntity } from '../comment/comment.entity';
 
 @Component({
 	selector: 'tag-input-item',
-	styleUrls: ['app/ng2comment.component.css'],
+	styleUrls: ['../comment/ng2comment.component.scss'],
 	template:
 	`{{text}}
 	<span
